@@ -72,11 +72,11 @@ public class Lettuce5InstrumentationTest {
         // and required datastore metrics are sent
         DatastoreHelper helper = new DatastoreHelper(DatastoreVendor.Redis.name());
         helper.assertAggregateMetrics();
-        // FIXME: Why is this 2 when 4.3 and 6 return 1?
-        assertEquals(2, introspector.getTransactionEvents(setTransactionName).iterator().next().getDatabaseCallCount());
-        assertEquals(2, introspector.getTransactionEvents(getTransactionName).iterator().next().getDatabaseCallCount());
-        helper.assertUnscopedOperationMetricCount("SET", 2);
-        helper.assertUnscopedOperationMetricCount("GET", 2);
+
+        assertEquals(1, introspector.getTransactionEvents(setTransactionName).iterator().next().getDatabaseCallCount());
+        assertEquals(1, introspector.getTransactionEvents(getTransactionName).iterator().next().getDatabaseCallCount());
+        helper.assertUnscopedOperationMetricCount("SET", 1);
+        helper.assertUnscopedOperationMetricCount("GET", 1);
 
         helper.assertInstanceLevelMetric(DatastoreVendor.Redis.name(), redis.getHost(), redis.getFirstMappedPort().toString());
     }
